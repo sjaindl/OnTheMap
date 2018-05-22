@@ -18,6 +18,7 @@ struct UdacityConstants {
     
     struct Methods {
         static let POST_SESSION = "/api/session"
+        static let PUBLIC_INFO = "/api/users/"
     }
     
     struct ParameterKeys {
@@ -34,6 +35,12 @@ struct UdacityConstants {
         static let STATUS = "status"
         static let ERROR = "error"
         static let ID = "id"
+        
+        static let ACCOUNT = "account"
+        static let KEY = "key"
+        static let USER = "user"
+        static let LAST_NAME = "last_name"
+
     }
     
     struct ParameterValues {
