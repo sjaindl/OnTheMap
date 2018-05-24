@@ -11,7 +11,9 @@ import Foundation
 class ParseClient {
     static let sharedInstance = ParseClient()
     
-    func fetchStudentLocations(completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ firstName: String?, _ lastName: String?, _ link: String?, _ latitude: Double?, _ longitude: Double?) -> Void) {
+    var studentInformation: [StudentInformation]?
+    
+    func fetchStudentLocations(completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ studentInformation: [String: Any]?) -> Void) {
         
         let queryItems = [ParseConstants.ParameterKeys.ORDER: ParseConstants.ParameterValues.UPDATED_AT]
         let url = WebClient.sharedInstance.createUrl(forScheme: ParseConstants.UrlComponents.PROTOCOL, forHost: ParseConstants.UrlComponents.DOMAIN, forMethod: ParseConstants.Methods.STUDENT_LOCATION, withQueryItems: queryItems)
@@ -25,7 +27,7 @@ class ParseClient {
                 //unsuccessful sample responses
                 //{"status": 403, "error": "Account not found or invalid credentials."}
                 //{"status": 400, "error": "Failed to parse JSON body."}
-                completionHandler(false, error.localizedDescription, nil, nil, nil, nil, nil)
+                completionHandler(false, error.localizedDescription, nil)
             } else {
                 //successful sample response:
 /*
@@ -48,18 +50,11 @@ class ParseClient {
  */
                 if let results = results?[ParseConstants.ParameterKeys.RESULTS] as? [[String: Any]] {
                     for result in results {
-                        guard let firstName = result[ParseConstants.ParameterKeys.FIRST_NAME] as? String, let lastName = result[ParseConstants.ParameterKeys.LAST_NAME] as? String, let latitude = result[ParseConstants.ParameterKeys.LATITUDE] as? Double, let longitude = result[ParseConstants.ParameterKeys.LONGITUDE] as? Double, let link = result[ParseConstants.ParameterKeys.LINK] as? String else {
-                            print("Result data not complete, skipping: \(result)")
-                            continue
-                        }
-                        
-                        print(result)
-                        print("\(firstName) \(lastName), \(longitude), \(latitude) \(link)")
-                        completionHandler(true, nil, firstName, lastName, link, latitude, longitude)
+                        completionHandler(true, nil, result)
                     }
                 } else {
                     print("Could not find \(ParseConstants.ParameterKeys.RESULTS) in \(results!)")
-                    completionHandler(false, "Fetching of Student Locations failed (no results).", nil, nil, nil, nil, nil)
+                    completionHandler(false, "Fetching of Student Locations failed (no results).", nil)
                 }
             }
         }

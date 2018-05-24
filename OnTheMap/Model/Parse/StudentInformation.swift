@@ -13,15 +13,36 @@ class StudentInformation: NSObject, MKAnnotation {
     let firstName: String
     let lastName: String
     let link: String
-    var coordinate: CLLocationCoordinate2D
+    let coordinate: CLLocationCoordinate2D
     
-    init(firstName: String, lastName: String, link: String, latitude: Double, longitude: Double) {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.link = link
-        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    init(_ studentInformation: [String: Any]?) {
+        
+        if let studentInformation = studentInformation,
+            let firstName = studentInformation[ParseConstants.ParameterKeys.FIRST_NAME] as? String,
+            let lastName = studentInformation[ParseConstants.ParameterKeys.LAST_NAME] as? String,
+            let latitude = studentInformation[ParseConstants.ParameterKeys.LATITUDE] as? Double,
+            let longitude = studentInformation[ParseConstants.ParameterKeys.LONGITUDE] as? Double,
+            let link = studentInformation[ParseConstants.ParameterKeys.LINK] as? String {
+            
+            self.firstName = firstName
+            self.lastName = lastName
+            self.link = link
+            self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+        } else {
+            self.firstName = ""
+            self.lastName = ""
+            self.link = ""
+            self.coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+            print("Result data not complete, skipping: \(studentInformation?.description ?? "unknown")")
+        }
         
         super.init()
+        
+        //append valid entries to the global studentInformation array
+        if studentInformation != nil {
+            ParseClient.sharedInstance.studentInformation?.append(self)
+        }
     }
     
     var title: String? {
