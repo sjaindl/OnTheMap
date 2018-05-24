@@ -28,11 +28,8 @@ class SignInViewController: UIViewController {
         UdacityClient.sharedInstance.loginWithCredentials(forUser: emailText.text!, password: passwordText.text!) {  (success, errorString) in
             performUIUpdatesOnMain {
                 if success {
-                    //perform segue to Map and Table Tabbed View.
-                    let alert = UIAlertController(title: "Success", message: "all ok", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true)
-                    
+                    //perform segue to MapView
+                    self.performSegue(withIdentifier: Constants.MAP_SEGUE, sender: self)
                 } else {
                     //show alertview with error message
                     let alert = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
@@ -42,5 +39,4 @@ class SignInViewController: UIViewController {
             }
         }
     }
-    
 }

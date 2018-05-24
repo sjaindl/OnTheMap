@@ -20,6 +20,7 @@ class UdacityClient {
             if success {
                 self.sessionId = sessionId
                 self.userId = userId
+                
                 self.getPublicUserData() { (success, errorString, lastName) in
                     if success {
                         completionHandler(true, "")
@@ -34,8 +35,8 @@ class UdacityClient {
     }
     
     func getSessionAndUserId(forUser user: String, password: String, completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ sessionId: String?, _ userId: String?) -> Void) {
-        let url = WebClient.sharedInstance.createUrl(forMethod: UdacityConstants.Methods.POST_SESSION, withQueryItems: nil)
-        var request = WebClient.sharedInstance.buildRequest(withUrl: url, withHttpMethod: UdacityConstants.ParameterKeys.HTTP_POST)
+        let url = WebClient.sharedInstance.createUrl(forScheme: UdacityConstants.UrlComponents.PROTOCOL, forHost: UdacityConstants.UrlComponents.DOMAIN, forMethod: UdacityConstants.Methods.POST_SESSION, withQueryItems: nil)
+        var request = WebClient.sharedInstance.buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_POST)
         let requestBody = [UdacityConstants.ParameterKeys.USERNAME: user, UdacityConstants.ParameterKeys.PASSWORD: password]
         
         request.httpBody = WebClient.sharedInstance.buildJson(from: requestBody, withKey: UdacityConstants.ParameterKeys.UDACITY)
@@ -49,7 +50,6 @@ class UdacityClient {
                 //{"status": 400, "error": "Failed to parse JSON body."}
                 completionHandler(false, error.localizedDescription, nil, nil)
             } else {
-                
                 //successful sample response:
                 //{"account": {"registered": true, "key": "8985380585"}, "session": {"id": "1557960201Sc034166577229ae8ac2a6e0a9e90114b", "expiration": "2018-07-14T22:43:21.686740Z"}}
                 if let session = results?[UdacityConstants.ParameterKeys.SESSION] as? [String: Any], let sessionId = session[UdacityConstants.ParameterKeys.ID] as? String, let account = results?[UdacityConstants.ParameterKeys.ACCOUNT] as? [String: Any], let userId = account[UdacityConstants.ParameterKeys.KEY] as? String {
@@ -63,8 +63,9 @@ class UdacityClient {
     }
     
     func getPublicUserData(completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ lastName: String) -> Void) {
-        let url = WebClient.sharedInstance.createUrl(forMethod: UdacityConstants.Methods.PUBLIC_INFO + String(userId!), withQueryItems: nil)
-        let request = WebClient.sharedInstance.buildRequest(withUrl: url, withHttpMethod: UdacityConstants.ParameterKeys.HTTP_GET)
+        let url = WebClient.sharedInstance.createUrl(forScheme: UdacityConstants.UrlComponents.PROTOCOL, forHost: UdacityConstants.UrlComponents.DOMAIN, forMethod: UdacityConstants.Methods.PUBLIC_INFO + String(userId!), withQueryItems: nil)
+        
+        let request = WebClient.sharedInstance.buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_GET)
         
         WebClient.sharedInstance.taskForWebRequest(request, errorDomain: "getPublicUserData", withOffset: 5) { (results, error) in
             

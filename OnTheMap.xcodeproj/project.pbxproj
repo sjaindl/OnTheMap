@@ -10,6 +10,13 @@
 		9A49660120AB639E0095BD83 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49660020AB639E0095BD83 /* UdacityConstants.swift */; };
 		9A49660720AB6DA20095BD83 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49660620AB6DA20095BD83 /* UdacityClient.swift */; };
 		9A49660920ACB6780095BD83 /* WebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49660820ACB6780095BD83 /* WebClient.swift */; };
+		9A66CE9D20B5E4DD00276681 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CE9C20B5E4DD00276681 /* MapViewController.swift */; };
+		9A66CE9F20B5E51500276681 /* PinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CE9E20B5E51500276681 /* PinTableViewController.swift */; };
+		9A66CEA120B5EA5E00276681 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CEA020B5EA5E00276681 /* Constants.swift */; };
+		9A66CEA420B5FE5E00276681 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CEA320B5FE5E00276681 /* ParseConstants.swift */; };
+		9A66CEA620B61B2500276681 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CEA520B61B2500276681 /* ParseClient.swift */; };
+		9A66CEA820B61D0A00276681 /* WebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CEA720B61D0A00276681 /* WebConstants.swift */; };
+		9A66CEAA20B6273F00276681 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CEA920B6273F00276681 /* StudentInformation.swift */; };
 		9A81F53C20AA0E3E00387457 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81F53B20AA0E3E00387457 /* AppDelegate.swift */; };
 		9A81F53E20AA0E3E00387457 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81F53D20AA0E3E00387457 /* SignInViewController.swift */; };
 		9A81F54320AA0E3F00387457 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A81F54220AA0E3F00387457 /* Assets.xcassets */; };
@@ -22,6 +29,13 @@
 		9A49660020AB639E0095BD83 /* UdacityConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		9A49660620AB6DA20095BD83 /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		9A49660820ACB6780095BD83 /* WebClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebClient.swift; sourceTree = "<group>"; };
+		9A66CE9C20B5E4DD00276681 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = OnTheMap/Controller/MapViewController.swift; sourceTree = SOURCE_ROOT; };
+		9A66CE9E20B5E51500276681 /* PinTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PinTableViewController.swift; path = OnTheMap/Controller/PinTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		9A66CEA020B5EA5E00276681 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = OnTheMap/Constants.swift; sourceTree = SOURCE_ROOT; };
+		9A66CEA320B5FE5E00276681 /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
+		9A66CEA520B61B2500276681 /* ParseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
+		9A66CEA720B61D0A00276681 /* WebConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebConstants.swift; sourceTree = "<group>"; };
+		9A66CEA920B6273F00276681 /* StudentInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		9A81F53820AA0E3E00387457 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81F53B20AA0E3E00387457 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A81F53D20AA0E3E00387457 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -46,8 +60,10 @@
 		9A49660220AB6A910095BD83 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9A66CEA220B5FE5100276681 /* Parse */,
 				9A49660520AB6D810095BD83 /* Udacity */,
 				9A49660820ACB6780095BD83 /* WebClient.swift */,
+				9A66CEA720B61D0A00276681 /* WebConstants.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -62,6 +78,8 @@
 		9A49660420AB6A9C0095BD83 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				9A66CE9C20B5E4DD00276681 /* MapViewController.swift */,
+				9A66CE9E20B5E51500276681 /* PinTableViewController.swift */,
 				9A81F53D20AA0E3E00387457 /* SignInViewController.swift */,
 			);
 			path = Controller;
@@ -74,6 +92,16 @@
 				9A49660620AB6DA20095BD83 /* UdacityClient.swift */,
 			);
 			path = Udacity;
+			sourceTree = "<group>";
+		};
+		9A66CEA220B5FE5100276681 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				9A66CEA320B5FE5E00276681 /* ParseConstants.swift */,
+				9A66CEA520B61B2500276681 /* ParseClient.swift */,
+				9A66CEA920B6273F00276681 /* StudentInformation.swift */,
+			);
+			path = Parse;
 			sourceTree = "<group>";
 		};
 		9A81F52F20AA0E3E00387457 = {
@@ -96,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				9A81F53B20AA0E3E00387457 /* AppDelegate.swift */,
+				9A66CEA020B5EA5E00276681 /* Constants.swift */,
 				9AE32A5920B487A200E9C082 /* GCDBlackBox.swift */,
 				9A49660420AB6A9C0095BD83 /* Controller */,
 				9A49660320AB6A970095BD83 /* View */,
@@ -196,11 +225,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A49660720AB6DA20095BD83 /* UdacityClient.swift in Sources */,
+				9A66CEAA20B6273F00276681 /* StudentInformation.swift in Sources */,
 				9A81F53E20AA0E3E00387457 /* SignInViewController.swift in Sources */,
 				9A81F53C20AA0E3E00387457 /* AppDelegate.swift in Sources */,
+				9A66CEA420B5FE5E00276681 /* ParseConstants.swift in Sources */,
 				9A49660920ACB6780095BD83 /* WebClient.swift in Sources */,
 				9AE32A5A20B487A200E9C082 /* GCDBlackBox.swift in Sources */,
+				9A66CE9F20B5E51500276681 /* PinTableViewController.swift in Sources */,
 				9A49660120AB639E0095BD83 /* UdacityConstants.swift in Sources */,
+				9A66CEA820B61D0A00276681 /* WebConstants.swift in Sources */,
+				9A66CE9D20B5E4DD00276681 /* MapViewController.swift in Sources */,
+				9A66CEA120B5EA5E00276681 /* Constants.swift in Sources */,
+				9A66CEA620B61B2500276681 /* ParseClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

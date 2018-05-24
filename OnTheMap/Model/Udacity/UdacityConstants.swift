@@ -22,18 +22,11 @@ struct UdacityConstants {
     }
     
     struct ParameterKeys {
-        static let ACCEPT_TYPE = "Accept"
-        static let CONTENT_TYPE = "Content-Type"
-        static let HTTP_POST = "POST"
-        static let HTTP_GET = "GET"
-        
         static let UDACITY = "udacity"
         static let USERNAME = "username"
         static let PASSWORD = "password"
         static let SESSION = "session"
         
-        static let STATUS = "status"
-        static let ERROR = "error"
         static let ID = "id"
         
         static let ACCOUNT = "account"
@@ -42,15 +35,4 @@ struct UdacityConstants {
         static let LAST_NAME = "last_name"
 
     }
-    
-    struct ParameterValues {
-        static let TYPE_JSON = "application/json"
-        static let CONTENT_TYPE = "Content-Type"
-    }
-    
-    //{"status": 403, "error": "Account not found or invalid credentials."}
-    //{"status": 400, "error": "Failed to parse JSON body."}
-    
-    //{"account": {"registered": true, "key": "8985380585"}, "session": {"id": "1557960201Sc034166577229ae8ac2a6e0a9e90114b", "expiration": "2018-07-14T22:43:21.686740Z"}}
-    
 }

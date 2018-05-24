@@ -11,11 +11,11 @@ import Foundation
 class WebClient {
     static let sharedInstance = WebClient()
     
-    func createUrl(forMethod method: String, withQueryItems queryItems: [String: String]?) -> URL {
+    func createUrl(forScheme scheme: String, forHost host: String, forMethod method: String, withQueryItems queryItems: [String: String]?) -> URL {
         var urlComponent = URLComponents()
         
-        urlComponent.scheme = UdacityConstants.UrlComponents.PROTOCOL
-        urlComponent.host = UdacityConstants.UrlComponents.DOMAIN
+        urlComponent.scheme = scheme
+        urlComponent.host = host
         urlComponent.path = method
         
         urlComponent.queryItems = [URLQueryItem]()
@@ -33,8 +33,8 @@ class WebClient {
     func buildRequest(withUrl url: URL, withHttpMethod httpMethod: String) -> URLRequest {
         var request = URLRequest(url: url)
         
-        request.addValue(UdacityConstants.ParameterValues.TYPE_JSON, forHTTPHeaderField: UdacityConstants.ParameterKeys.ACCEPT_TYPE)
-        request.addValue(UdacityConstants.ParameterValues.TYPE_JSON, forHTTPHeaderField: UdacityConstants.ParameterKeys.CONTENT_TYPE)
+        request.addValue(WebConstants.ParameterValues.TYPE_JSON, forHTTPHeaderField: WebConstants.ParameterKeys.ACCEPT_TYPE)
+        request.addValue(WebConstants.ParameterValues.TYPE_JSON, forHTTPHeaderField: WebConstants.ParameterKeys.CONTENT_TYPE)
         
         request.httpMethod = httpMethod
         
@@ -99,7 +99,7 @@ class WebClient {
             
             //get detailled status code error message, if available
             convertDataWithCompletionHandler(data, withOffset: offset) { (parsedResult, errorDetail) in
-                if let parsedResult = parsedResult as? [String: AnyObject], let status = parsedResult[UdacityConstants.ParameterKeys.STATUS] as? Int, let errorDescription = parsedResult[UdacityConstants.ParameterKeys.ERROR] as? String {
+                if let parsedResult = parsedResult as? [String: AnyObject], let status = parsedResult[WebConstants.ParameterKeys.STATUS] as? Int, let errorDescription = parsedResult[WebConstants.ParameterKeys.ERROR] as? String {
                         statusCodeError = NSError(domain: errorDomain, code: 5, userInfo: [NSLocalizedDescriptionKey: errorDescription +  " (" + String(status) + ")"])
                 }
             }
@@ -111,7 +111,7 @@ class WebClient {
         return nil
     }
     
-    func taskForWebRequest(_ request: URLRequest, errorDomain: String, withOffset offset: Int, completionHandlerForRequest: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> Void {
+    func taskForWebRequest(_ request: URLRequest, errorDomain: String, withOffset offset: Int = 0, completionHandlerForRequest: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> Void {
         
         /* Perform Web request */
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
