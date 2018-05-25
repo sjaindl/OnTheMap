@@ -10,10 +10,44 @@ import UIKit
 
 class PinTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBAction func refresh(_ sender: UIBarButtonItem) {
+        fetchData()
+    }
+    
+    @IBAction func logout(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
+    private func fetchData() {
+        ParseClient.sharedInstance.studentInformation.removeAll()
+        tableView.reloadData()
+        
+        ParseClient.sharedInstance.fetchStudentLocations() { (success, errorString, studentInformation) in
+            performUIUpdatesOnMain {
+                if success {
+                    let studentInformation = StudentInformation(studentInformation)
+                    if studentInformation.hasCompleteInformation() {
+                        //append valid entries to the studentInformation array
+                        ParseClient.sharedInstance.addStudentInfo(studentInformation)
+                        self.tableView.reloadData()
+                        
+                    }
+                } else {
+                    //show alertview with error message
+                    let alert = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,5 +62,13 @@ class PinTableViewController: UIViewController, UITableViewDelegate, UITableView
         cell.detailTextLabel?.text = studentInfo.subtitle
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let studentInfo = ParseClient.sharedInstance.studentInformation[indexPath.row]
+        
+        if let url = URL(string: studentInfo.link) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 }

@@ -16,8 +16,6 @@ class StudentInformation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
     
     init(_ studentInformation: [String: Any]?) {
-        var completeInformation = false
-        
         if let studentInformation = studentInformation,
             let firstName = studentInformation[ParseConstants.ParameterKeys.FIRST_NAME] as? String,
             let lastName = studentInformation[ParseConstants.ParameterKeys.LAST_NAME] as? String,
@@ -29,8 +27,6 @@ class StudentInformation: NSObject, MKAnnotation {
             self.lastName = lastName
             self.link = link
             self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            completeInformation = true
-            
         } else {
             self.firstName = ""
             self.lastName = ""
@@ -40,11 +36,6 @@ class StudentInformation: NSObject, MKAnnotation {
         }
         
         super.init()
-        
-        //append valid entries to the global studentInformation array
-        if completeInformation {
-            ParseClient.sharedInstance.addStudentInfo(self)
-        }
     }
     
     var title: String? {
@@ -53,5 +44,9 @@ class StudentInformation: NSObject, MKAnnotation {
     
     var subtitle: String? {
         return link
+    }
+    
+    func hasCompleteInformation() -> Bool {
+        return firstName != "" && lastName != "" && link != ""
     }
 }
