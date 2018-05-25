@@ -11,7 +11,11 @@ import Foundation
 class ParseClient {
     static let sharedInstance = ParseClient()
     
-    var studentInformation: [StudentInformation]?
+    var studentInformation: [StudentInformation] = []
+    
+    func addStudentInfo(_ studentInfo: StudentInformation) {
+        studentInformation.append(studentInfo)
+    }
     
     func fetchStudentLocations(completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ studentInformation: [String: Any]?) -> Void) {
         

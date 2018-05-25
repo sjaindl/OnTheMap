@@ -8,11 +8,25 @@
 
 import UIKit
 
-class PinTableViewController: UIViewController {
-
+class PinTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return ParseClient.sharedInstance.studentInformation.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CELL_REUSE_ID)!
+        
+        let studentInfo = ParseClient.sharedInstance.studentInformation[indexPath.row]
+        cell.textLabel?.text = studentInfo.title
+        cell.detailTextLabel?.text = studentInfo.subtitle
+        
+        return cell
     }
 }
