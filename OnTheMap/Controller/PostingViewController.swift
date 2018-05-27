@@ -1,0 +1,144 @@
+//
+//  PostingViewController.swift
+//  OnTheMap
+//
+//  Created by Stefan Jaindl on 25.05.18.
+//  Copyright © 2018 Stefan Jaindl. All rights reserved.
+//
+
+import CoreLocation
+import GoogleMaps
+import UIKit
+
+class PostingViewController: UIViewController, UITextFieldDelegate {
+    
+    @IBOutlet weak var location: UITextField!
+    @IBOutlet weak var link: UITextField!
+    @IBOutlet weak var findButton: UIButton!
+    @IBOutlet weak var finishButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var map: GMSMapView!
+    @IBOutlet weak var stackView: UIStackView!
+    
+    var pinnedLocation: CLLocationCoordinate2D?
+    
+    @IBAction func cancel(_ sender: Any) {
+        ParseClient.sharedInstance.ownInformation = nil
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func finishPost(_ sender: Any) {
+        enableMapView(false)
+        activityIndicator.startAnimating()
+        
+        ParseClient.sharedInstance.postStudentLocation(mapString: location.text!, link: link.text!, location: pinnedLocation!) { (success, error) in
+            performUIUpdatesOnMain {
+                self.activityIndicator.stopAnimating()
+            }
+            
+            if let error = error {
+                performUIUpdatesOnMain {
+                    let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                }
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @IBAction func findLocation(_ sender: Any) {
+        location.resignFirstResponder()
+        link.resignFirstResponder()
+        activityIndicator.startAnimating()
+        let text = self.location.text!
+        
+        DispatchQueue.global().async {
+            let geocoder = CLGeocoder()
+            geocoder.geocodeAddressString(text) { (placemark, error) in
+                performUIUpdatesOnMain {
+                    self.activityIndicator.stopAnimating()
+                }
+                
+                if let error = error {
+                    performUIUpdatesOnMain {
+                        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true)
+                    }
+                } else {
+                    //For most geocoding requests, this array should contain only one entry. Otherwise the first result is used.
+                    guard let placemark = placemark, let location = placemark[0].location?.coordinate else {
+                        performUIUpdatesOnMain {
+                            let alert = UIAlertController(title: "Error", message: "No location could be found.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                        }
+                        
+                        return
+                    }
+                    
+                    performUIUpdatesOnMain {
+                        self.enableMapView(true)
+                        self.placePin(atLocation: location)
+                    }
+                }
+            }
+        }
+    }
+    
+    func placePin(atLocation location2D: CLLocationCoordinate2D) {
+        let marker = GMSMarker(position: location2D)
+        
+        marker.title = location.text
+        marker.icon = UIImage(named: "icon_pin")
+        marker.isFlat = true
+        marker.map = map
+        
+        pinnedLocation = location2D
+        let personalInfo = AuthenticationClient.sharedInstance.personalInformation
+        
+        if let firstName = personalInfo.firstName, let lastName = personalInfo.lastName, let link = link.text {
+            ParseClient.sharedInstance.ownInformation = StudentInformation(firstName: firstName, lastName: lastName, link: link, location: location2D)
+        } else {
+            let alert = UIAlertController(title: "Error", message: "Pin couldn't be placed because personal info is not available.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        
+        let cornerRadius: CGFloat = 5.0
+        findButton.layer.cornerRadius = cornerRadius
+        finishButton.layer.cornerRadius = cornerRadius
+        
+        location.delegate = self
+        link.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        enableMapView(false)
+    }
+    
+    func enableMapView(_ enable: Bool) {
+        self.stackView.isHidden = enable
+        for subview in self.stackView.subviews {
+            subview.isHidden = enable
+        }
+        
+        self.map.isHidden = !enable
+        self.finishButton.isHidden = !enable
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

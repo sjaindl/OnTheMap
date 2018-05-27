@@ -7,6 +7,8 @@
 //
 
 import CoreLocation
+import FacebookCore
+import FacebookLogin
 import GoogleMaps
 import MapKit
 import UIKit
@@ -20,6 +22,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     @IBAction func logout(_ sender: UIBarButtonItem) {
+        AuthenticationClient.sharedInstance.reset()
+        FacebookClient.sharedInstance.facebookLoginManager.logOut()
+        
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {

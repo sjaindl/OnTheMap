@@ -11,5 +11,5 @@ import Foundation
 struct Constants {
     static let MAP_SEGUE = "showMap"
     static let CELL_REUSE_ID = "studentInformationCell"
-    static let GOOGLE_MAPS_API_KEY = "placeholder"
+    static let GOOGLE_MAPS_API_KEY = "AIzaSyBHKiv3bi0757Tw2yKVY6fm3F5oNDXqzKc"
 }

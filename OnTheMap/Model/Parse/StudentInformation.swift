@@ -38,6 +38,15 @@ class StudentInformation: NSObject, MKAnnotation {
         super.init()
     }
     
+    init(firstName: String, lastName: String, link: String, location: CLLocationCoordinate2D) {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.link = link
+        self.coordinate = location
+        
+        super.init()
+    }
+    
     var title: String? {
         return "\(firstName) \(lastName)"
     }

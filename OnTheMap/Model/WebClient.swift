@@ -41,8 +41,8 @@ class WebClient {
         return request
     }
     
-    func buildJson(from jsonObject: Any, withKey key: String?) -> Data? {
-        var json: String
+    func buildJson(from jsonObject: Any, withKey key: String? = nil) -> Data? {
+        var json: String = ""
         var jsonPrefix: String?
         var jsonPostfix: String?
         
@@ -53,7 +53,15 @@ class WebClient {
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: jsonObject)
-            json = (jsonPrefix ?? jsonPrefix!) + String(data: jsonData, encoding: .utf8)! + (jsonPostfix ?? jsonPostfix!)
+            if let jsonPrefix = jsonPrefix {
+                json = jsonPrefix + String(data: jsonData, encoding: .utf8)!
+            } else {
+                json = String(data: jsonData, encoding: .utf8)!
+            }
+            
+            if let jsonPostfix = jsonPostfix {
+                json += jsonPostfix
+            }
         } catch {
             json = "{}"
         }
@@ -106,7 +114,6 @@ class WebClient {
             
             return statusCodeError
         }
-        
         
         return nil
     }

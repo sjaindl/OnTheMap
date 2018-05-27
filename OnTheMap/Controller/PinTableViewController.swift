@@ -17,7 +17,10 @@ class PinTableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func logout(_ sender: UIBarButtonItem) {
+        AuthenticationClient.sharedInstance.reset()
+        FacebookClient.sharedInstance.facebookLoginManager.logOut()
         
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {

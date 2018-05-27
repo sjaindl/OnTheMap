@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		529587CEC1BA44391F20C6AD /* Pods_OnTheMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C72E6AA1CD55F7E2864F7C /* Pods_OnTheMap.framework */; };
+		9A3B6F7520B887DD004C8DD4 /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3B6F7420B887DD004C8DD4 /* PostingViewController.swift */; };
+		9A3B6F7820BB3C78004C8DD4 /* FacebookClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3B6F7720BB3C78004C8DD4 /* FacebookClient.swift */; };
+		9A3B6F7A20BB4072004C8DD4 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3B6F7920BB4072004C8DD4 /* UdacityClient.swift */; };
 		9A49660120AB639E0095BD83 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49660020AB639E0095BD83 /* UdacityConstants.swift */; };
-		9A49660720AB6DA20095BD83 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49660620AB6DA20095BD83 /* UdacityClient.swift */; };
+		9A49660720AB6DA20095BD83 /* AuthenticationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49660620AB6DA20095BD83 /* AuthenticationClient.swift */; };
 		9A49660920ACB6780095BD83 /* WebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49660820ACB6780095BD83 /* WebClient.swift */; };
 		9A66CE9D20B5E4DD00276681 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CE9C20B5E4DD00276681 /* MapViewController.swift */; };
 		9A66CE9F20B5E51500276681 /* PinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66CE9E20B5E51500276681 /* PinTableViewController.swift */; };
@@ -23,14 +27,16 @@
 		9A81F54620AA0E3F00387457 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A81F54420AA0E3F00387457 /* LaunchScreen.storyboard */; };
 		9A81F54F20AA385F00387457 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A81F54D20AA385F00387457 /* Main.storyboard */; };
 		9AE32A5A20B487A200E9C082 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE32A5920B487A200E9C082 /* GCDBlackBox.swift */; };
-		AC468D7703CA17E3E8B42DEF /* libPods-OnTheMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B5252DE5050E60258B5866D /* libPods-OnTheMap.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		36C72E6AA1CD55F7E2864F7C /* Pods_OnTheMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnTheMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37131AA8438289D460282A1D /* Pods-OnTheMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.debug.xcconfig"; sourceTree = "<group>"; };
-		8B5252DE5050E60258B5866D /* libPods-OnTheMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OnTheMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A3B6F7420B887DD004C8DD4 /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingViewController.swift; path = OnTheMap/Controller/PostingViewController.swift; sourceTree = SOURCE_ROOT; };
+		9A3B6F7720BB3C78004C8DD4 /* FacebookClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookClient.swift; sourceTree = "<group>"; };
+		9A3B6F7920BB4072004C8DD4 /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		9A49660020AB639E0095BD83 /* UdacityConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
-		9A49660620AB6DA20095BD83 /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		9A49660620AB6DA20095BD83 /* AuthenticationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationClient.swift; sourceTree = "<group>"; };
 		9A49660820ACB6780095BD83 /* WebClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebClient.swift; sourceTree = "<group>"; };
 		9A66CE9C20B5E4DD00276681 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = OnTheMap/Controller/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		9A66CE9E20B5E51500276681 /* PinTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PinTableViewController.swift; path = OnTheMap/Controller/PinTableViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -55,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC468D7703CA17E3E8B42DEF /* libPods-OnTheMap.a in Frameworks */,
+				529587CEC1BA44391F20C6AD /* Pods_OnTheMap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				9A66CEA220B5FE5100276681 /* Parse */,
-				9A49660520AB6D810095BD83 /* Udacity */,
+				9A49660520AB6D810095BD83 /* Authentication */,
 				9A49660820ACB6780095BD83 /* WebClient.swift */,
 				9A66CEA720B61D0A00276681 /* WebConstants.swift */,
 			);
@@ -85,18 +91,21 @@
 			children = (
 				9A66CE9C20B5E4DD00276681 /* MapViewController.swift */,
 				9A66CE9E20B5E51500276681 /* PinTableViewController.swift */,
+				9A3B6F7420B887DD004C8DD4 /* PostingViewController.swift */,
 				9A81F53D20AA0E3E00387457 /* SignInViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		9A49660520AB6D810095BD83 /* Udacity */ = {
+		9A49660520AB6D810095BD83 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				9A3B6F7720BB3C78004C8DD4 /* FacebookClient.swift */,
 				9A49660020AB639E0095BD83 /* UdacityConstants.swift */,
-				9A49660620AB6DA20095BD83 /* UdacityClient.swift */,
+				9A49660620AB6DA20095BD83 /* AuthenticationClient.swift */,
+				9A3B6F7920BB4072004C8DD4 /* UdacityClient.swift */,
 			);
-			path = Udacity;
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		9A66CEA220B5FE5100276681 /* Parse */ = {
@@ -172,7 +181,7 @@
 		F6EE36C8E8A829C6764453A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B5252DE5050E60258B5866D /* libPods-OnTheMap.a */,
+				36C72E6AA1CD55F7E2864F7C /* Pods_OnTheMap.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -189,6 +198,7 @@
 				9A81F53520AA0E3E00387457 /* Frameworks */,
 				9A81F53620AA0E3E00387457 /* Resources */,
 				82E3F4A4DD830B83371C1635 /* [CP] Copy Pods Resources */,
+				CC7684A3BAAD6C4E3D2813D9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -271,8 +281,8 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Versions/A/Resources/GooglePlaces.bundle",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -284,6 +294,32 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CC7684A3BAAD6C4E3D2813D9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -291,7 +327,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A49660720AB6DA20095BD83 /* UdacityClient.swift in Sources */,
+				9A3B6F7A20BB4072004C8DD4 /* UdacityClient.swift in Sources */,
+				9A49660720AB6DA20095BD83 /* AuthenticationClient.swift in Sources */,
+				9A3B6F7520B887DD004C8DD4 /* PostingViewController.swift in Sources */,
 				9A66CEAA20B6273F00276681 /* StudentInformation.swift in Sources */,
 				9A81F53E20AA0E3E00387457 /* SignInViewController.swift in Sources */,
 				9A81F53C20AA0E3E00387457 /* AppDelegate.swift in Sources */,
@@ -303,6 +341,7 @@
 				9A66CEA820B61D0A00276681 /* WebConstants.swift in Sources */,
 				9A66CE9D20B5E4DD00276681 /* MapViewController.swift in Sources */,
 				9A66CEA120B5EA5E00276681 /* Constants.swift in Sources */,
+				9A3B6F7820BB3C78004C8DD4 /* FacebookClient.swift in Sources */,
 				9A66CEA620B61B2500276681 /* ParseClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

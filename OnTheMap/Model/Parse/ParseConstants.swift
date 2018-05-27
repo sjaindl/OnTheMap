@@ -31,6 +31,7 @@ struct ParseConstants {
         static let LINK = "mediaURL"
         
         static let ORDER = "order"
+        static let CREATED_AT = "createdAt"
     }
     
     struct ParameterValues {
