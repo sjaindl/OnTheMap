@@ -67,12 +67,22 @@ class ParseClient {
     }
     
     func postStudentLocation(mapString: String, link: String, location: CLLocationCoordinate2D, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
-        
         let url = WebClient.sharedInstance.createUrl(forScheme: ParseConstants.UrlComponents.PROTOCOL, forHost: ParseConstants.UrlComponents.DOMAIN, forMethod: ParseConstants.Methods.STUDENT_LOCATION, withQueryItems: nil)
-        var request = buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_POST)
+        let request = buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_POST)
+        postOrPutStudentLocation(withRequest: request, mapString: mapString, link: link, location: location, completionHandler: completionHandler)
+    }
+    
+    func putStudentLocation(_ objectId: String, mapString: String, link: String, location: CLLocationCoordinate2D, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        let url = WebClient.sharedInstance.createUrl(forScheme: ParseConstants.UrlComponents.PROTOCOL, forHost: ParseConstants.UrlComponents.DOMAIN, forMethod: ParseConstants.Methods.STUDENT_LOCATION + "/" + objectId, withQueryItems: nil)
+        let request = buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_PUT)
+        postOrPutStudentLocation(withRequest: request, mapString: mapString, link: link, location: location, completionHandler: completionHandler)
+    }
+    
+    func postOrPutStudentLocation(withRequest request: URLRequest, mapString: String, link: String, location: CLLocationCoordinate2D, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        var request = request
         let personalInfo = AuthenticationClient.sharedInstance.personalInformation
         let requestBody = [UdacityConstants.ParameterKeys.UNIQUE_KEY: personalInfo.uniqueKey, UdacityConstants.ParameterKeys.FIRSTNAME: personalInfo.firstName, UdacityConstants.ParameterKeys.LASTNAME: personalInfo.lastName, UdacityConstants.ParameterKeys.MAPSTRING: mapString, UdacityConstants.ParameterKeys.MEDIA_URL: link, UdacityConstants.ParameterKeys.LATITUDE: String(location.latitude), UdacityConstants.ParameterKeys.LONGITUDE: String(location.longitude)]
-
+        
         request.httpBody = WebClient.sharedInstance.buildJson(from: requestBody)
         
         WebClient.sharedInstance.taskForWebRequest(request, errorDomain: "postStudentLocation") { (results, error) in
@@ -84,8 +94,8 @@ class ParseClient {
                 //successful sample response:
                 /*
                  {
-                     "createdAt":"2015-03-11T02:48:18.321Z",
-                     "objectId":"CDHfAy8sdp"
+                 "createdAt":"2015-03-11T02:48:18.321Z",
+                 "objectId":"CDHfAy8sdp"
                  }
                  */
                 if results?[ParseConstants.ParameterKeys.CREATED_AT] != nil {
@@ -94,6 +104,34 @@ class ParseClient {
                     print("Could not find \(ParseConstants.ParameterKeys.CREATED_AT) in \(results!)")
                     completionHandler(false, "Posting of Student Location failed.")
                 }
+            }
+        }
+    }
+    
+    func getStudentLocation(_ uniqueKey: String, completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ objectId: String?) -> Void) {
+        let queryItem = [UdacityConstants.ParameterKeys.WHERE: uniqueKey]
+        let url = WebClient.sharedInstance.createUrl(forScheme: ParseConstants.UrlComponents.PROTOCOL, forHost: ParseConstants.UrlComponents.DOMAIN, forMethod: ParseConstants.Methods.STUDENT_LOCATION, withQueryItems: queryItem)
+        let request = buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_GET)
+        
+        WebClient.sharedInstance.taskForWebRequest(request, errorDomain: "getStudentLocation") { (results, error) in
+            
+            var objectId: String?
+            /* Send the desired value(s) to completion handler */
+            if let error = error {
+                completionHandler(false, error.localizedDescription, nil)
+            } else {
+                
+                guard let results = results?[ParseConstants.ParameterKeys.RESULTS] as? [[String: Any]] else {
+                    print("Could not find \(ParseConstants.ParameterKeys.UNIQUE_KEY) or \(ParseConstants.ParameterKeys.OBJECT_ID)")
+                    completionHandler(false, "Checking of Student Location failed.", nil)
+                    return
+                }
+                
+                if results.count > 0 {
+                    objectId = results[0][ParseConstants.ParameterKeys.OBJECT_ID] as? String
+                }
+
+                completionHandler(true, nil, objectId)
             }
         }
     }

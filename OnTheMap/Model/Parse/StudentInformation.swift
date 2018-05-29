@@ -12,6 +12,7 @@ import MapKit
 class StudentInformation: NSObject, MKAnnotation {
     let firstName: String
     let lastName: String
+    let uniqueKey: String
     let link: String
     let coordinate: CLLocationCoordinate2D
     
@@ -19,17 +20,20 @@ class StudentInformation: NSObject, MKAnnotation {
         if let studentInformation = studentInformation,
             let firstName = studentInformation[ParseConstants.ParameterKeys.FIRST_NAME] as? String,
             let lastName = studentInformation[ParseConstants.ParameterKeys.LAST_NAME] as? String,
+            let uniqueKey = studentInformation[ParseConstants.ParameterKeys.UNIQUE_KEY] as? String,
             let latitude = studentInformation[ParseConstants.ParameterKeys.LATITUDE] as? Double,
             let longitude = studentInformation[ParseConstants.ParameterKeys.LONGITUDE] as? Double,
             let link = studentInformation[ParseConstants.ParameterKeys.LINK] as? String {
             
             self.firstName = firstName
             self.lastName = lastName
+            self.uniqueKey = uniqueKey
             self.link = link
             self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         } else {
             self.firstName = ""
             self.lastName = ""
+            self.uniqueKey = ""
             self.link = ""
             self.coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
             print("Result data not complete, skipping: \(studentInformation?.description ?? "unknown")")
@@ -38,9 +42,10 @@ class StudentInformation: NSObject, MKAnnotation {
         super.init()
     }
     
-    init(firstName: String, lastName: String, link: String, location: CLLocationCoordinate2D) {
+    init(firstName: String, lastName: String, uniqueKey: String, link: String, location: CLLocationCoordinate2D) {
         self.firstName = firstName
         self.lastName = lastName
+        self.uniqueKey = uniqueKey
         self.link = link
         self.coordinate = location
         

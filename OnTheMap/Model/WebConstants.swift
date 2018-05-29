@@ -13,6 +13,7 @@ struct WebConstants {
         static let ACCEPT_TYPE = "Accept"
         static let CONTENT_TYPE = "Content-Type"
         static let HTTP_POST = "POST"
+        static let HTTP_PUT = "PUT"
         static let HTTP_GET = "GET"
         static let HTTP_DELETE = "DELETE"
         

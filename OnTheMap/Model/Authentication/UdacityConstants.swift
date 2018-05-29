@@ -22,6 +22,9 @@ struct UdacityConstants {
     }
     
     struct ParameterKeys {
+        static let FACEBOOK_MOBILE = "facebook_mobile"
+        static let FACEBOOK_ACCESS_TOKEN = "access_token"
+        
         static let UDACITY = "udacity"
         static let USERNAME = "username"
         static let PASSWORD = "password"
@@ -38,6 +41,7 @@ struct UdacityConstants {
         static let XSRF_TOKEN = "XSRF-TOKEN"
         static let X_XSRF_TOKEN = "X-XSRF-TOKEN"
         
+        static let WHERE = "where"
         static let UNIQUE_KEY = "uniqueKey"
         static let FIRSTNAME = "firstName"
         static let LASTNAME = "lastName"

@@ -6,24 +6,37 @@
 //  Copyright © 2018 Stefan Jaindl. All rights reserved.
 //
 
+import FacebookCore
 import Foundation
 
 class UdacityClient {
     
     static let sharedInstance = UdacityClient()
     
-    func loginWithCredentials(forUser user: String, password: String, completionHandler: @escaping (_ success: Bool, _ errorString: String) -> Void) {
-        getSessionAndUserId(forUser: user, password: password) { (success, errorString, sessionId, userId) in
+    func loginWithCredentials(forUser user: String, password: String, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        let requestBody = [UdacityConstants.ParameterKeys.USERNAME: user, UdacityConstants.ParameterKeys.PASSWORD: password]
+        let httpBody = WebClient.sharedInstance.buildJson(from: requestBody, withKey: UdacityConstants.ParameterKeys.UDACITY)
+        login(withRequestBody: httpBody, completionHandler: completionHandler)
+    }
+    
+    func loginWithFacebook(completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        let requestBody = [UdacityConstants.ParameterKeys.FACEBOOK_ACCESS_TOKEN: AccessToken.current?.authenticationToken]
+        let httpBody = WebClient.sharedInstance.buildJson(from: requestBody, withKey: UdacityConstants.ParameterKeys.FACEBOOK_MOBILE)
+        login(withRequestBody: httpBody, completionHandler: completionHandler)
+    }
+    
+    func login(withRequestBody requestBody: Data?, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        getSessionAndUserId(withRequestBody: requestBody) { (success, errorString, sessionId, userId) in
             if success {
-                var personalInformation = AuthenticationClient.sharedInstance.personalInformation
-                personalInformation.udacitySessionId = sessionId
-                personalInformation.userId = userId
+                AuthenticationClient.sharedInstance.personalInformation.udacitySessionId = sessionId
+                AuthenticationClient.sharedInstance.personalInformation.userId = userId
                 
                 self.getPublicUserData() { (success, errorString, uniqueKey, firstName, lastName) in
                     if success {
-                        personalInformation.uniqueKey = uniqueKey
-                        personalInformation.firstName = firstName
-                        personalInformation.lastName = lastName
+                        AuthenticationClient.sharedInstance.personalInformation.uniqueKey = uniqueKey
+                        AuthenticationClient.sharedInstance.personalInformation.firstName = firstName
+                        AuthenticationClient.sharedInstance.personalInformation.lastName = lastName
                         completionHandler(true, "")
                     } else {
                         completionHandler(false, errorString!)
@@ -35,12 +48,11 @@ class UdacityClient {
         }
     }
     
-    func getSessionAndUserId(forUser user: String, password: String, completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ sessionId: String?, _ userId: String?) -> Void) {
+    func getSessionAndUserId(withRequestBody requestBody: Data?, completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ sessionId: String?, _ userId: String?) -> Void) {
         let url = WebClient.sharedInstance.createUrl(forScheme: UdacityConstants.UrlComponents.PROTOCOL, forHost: UdacityConstants.UrlComponents.DOMAIN, forMethod: UdacityConstants.Methods.SESSION, withQueryItems: nil)
         var request = WebClient.sharedInstance.buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_POST)
-        let requestBody = [UdacityConstants.ParameterKeys.USERNAME: user, UdacityConstants.ParameterKeys.PASSWORD: password]
         
-        request.httpBody = WebClient.sharedInstance.buildJson(from: requestBody, withKey: UdacityConstants.ParameterKeys.UDACITY)
+        request.httpBody = requestBody
         
         WebClient.sharedInstance.taskForWebRequest(request, errorDomain: "getUdacitySessionId", withOffset: 5) { (results, error) in
             

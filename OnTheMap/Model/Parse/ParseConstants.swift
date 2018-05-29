@@ -29,6 +29,8 @@ struct ParseConstants {
         static let LATITUDE = "latitude"
         static let LONGITUDE = "longitude"
         static let LINK = "mediaURL"
+        static let UNIQUE_KEY = "uniqueKey"
+        static let OBJECT_ID = "objectId"
         
         static let ORDER = "order"
         static let CREATED_AT = "createdAt"

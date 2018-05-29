@@ -50,16 +50,15 @@ class PostingViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func findLocation(_ sender: Any) {
-        location.resignFirstResponder()
-        link.resignFirstResponder()
-        activityIndicator.startAnimating()
+        setupUiForGeocoding()
+        
         let text = self.location.text!
         
         DispatchQueue.global().async {
             let geocoder = CLGeocoder()
             geocoder.geocodeAddressString(text) { (placemark, error) in
                 performUIUpdatesOnMain {
-                    self.activityIndicator.stopAnimating()
+                    self.resetUi()
                 }
                 
                 if let error = error {
@@ -89,19 +88,44 @@ class PostingViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func setupUiForGeocoding() {
+        location.resignFirstResponder()
+        link.resignFirstResponder()
+        
+        activityIndicator.startAnimating()
+        
+        for subview in self.stackView.subviews {
+            subview.alpha = 0.5
+        }
+    }
+    
+    func resetUi() {
+        activityIndicator.stopAnimating()
+        
+        for subview in self.stackView.subviews {
+            subview.alpha = 1.0
+        }
+    }
+    
     func placePin(atLocation location2D: CLLocationCoordinate2D) {
-        let marker = GMSMarker(position: location2D)
-        
-        marker.title = location.text
-        marker.icon = UIImage(named: "icon_pin")
-        marker.isFlat = true
-        marker.map = map
-        
-        pinnedLocation = location2D
         let personalInfo = AuthenticationClient.sharedInstance.personalInformation
         
         if let firstName = personalInfo.firstName, let lastName = personalInfo.lastName, let link = link.text {
-            ParseClient.sharedInstance.ownInformation = StudentInformation(firstName: firstName, lastName: lastName, link: link, location: location2D)
+            ParseClient.sharedInstance.ownInformation = StudentInformation(firstName: firstName, lastName: lastName, uniqueKey: "", link: link, location: location2D)
+       
+            let camera = GMSCameraPosition.camera(withLatitude: location2D.latitude,
+                                              longitude: location2D.longitude,
+                                              zoom: 14)
+            map.camera = camera
+            
+            let marker = GMSMarker(position: location2D)
+            
+            marker.title = location.text
+            marker.icon = UIImage(named: "icon_pin")
+            marker.isFlat = true
+            marker.map = map
+            
+            pinnedLocation = location2D
         } else {
             let alert = UIAlertController(title: "Error", message: "Pin couldn't be placed because personal info is not available.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
