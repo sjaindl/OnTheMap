@@ -69,9 +69,12 @@ class PinTableViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let studentInfo = ParseClient.sharedInstance.studentInformation[indexPath.row]
+        var urlString = studentInfo.link
         
-        if let url = URL(string: studentInfo.link) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        if !(urlString.hasPrefix("http://") || urlString.hasPrefix("https://")) {
+            urlString = "http://\(urlString)"
         }
+        
+        UIApplication.shared.open(URL(string: urlString)!, options: [:], completionHandler: nil)
     }
 }

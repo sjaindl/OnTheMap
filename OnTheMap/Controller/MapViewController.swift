@@ -77,8 +77,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        if let url = URL(string: marker.snippet!) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        guard var urlString = marker.snippet else {
+            return
         }
+        
+        if !(urlString.hasPrefix("http://") || urlString.hasPrefix("https://")) {
+            urlString = "http://\(urlString)"
+        }
+        
+        UIApplication.shared.open(URL(string: urlString)!, options: [:], completionHandler: nil)
     }
 }

@@ -33,6 +33,7 @@ class PostingViewController: UIViewController, UITextFieldDelegate {
         activityIndicator.startAnimating()
         let location = self.location.text!
         let link = self.link.text!
+        let coordinates = self.pinnedLocation!
         
         ParseClient.sharedInstance.getStudentLocation((ParseClient.sharedInstance.ownInformation?.uniqueKey)!) { (success, error, objectId) in
             if let error = error {
@@ -43,54 +44,61 @@ class PostingViewController: UIViewController, UITextFieldDelegate {
                     self.present(alert, animated: true)
                 }
             } else if let objectId = objectId {
-                
                 performUIUpdatesOnMain {
-                    //location already existing, overwriting it?
-                    let alert = UIAlertController(title: "Location already existing", message: "Do you want to override your previous location?", preferredStyle: .alert)
-                    
-                    let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
-                        ParseClient.sharedInstance.putStudentLocation(objectId, mapString: self.location.text!, link: self.link.text!, location: self.pinnedLocation!) { (success, error) in
-                            performUIUpdatesOnMain {
-                                self.activityIndicator.stopAnimating()
-                            
-                                if let error = error {
-                                    let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                                    self.present(alert, animated: true)
-                                } else {
-                                    self.dismiss(animated: true, completion: nil)
-                                }
-                            }
-                        }
-                    }
-                    
-                    let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                    
-                    alert.addAction(yesAction)
-                    alert.addAction(noAction)
-                    
-                    // Present Alert Controller
-                    self.present(alert, animated: true, completion: nil)
+                    self.putLocation(location, withLink: link, withObjectId: objectId)
                 }
             } else {
                 //location not yet existing, post it!
-                ParseClient.sharedInstance.postStudentLocation(mapString: location, link: link, location: self.pinnedLocation!) { (success, error) in
-                    performUIUpdatesOnMain {
-                        self.activityIndicator.stopAnimating()
-                        
-                        if let error = error {
-                            let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                            self.present(alert, animated: true)
-                        } else {
-                            self.dismiss(animated: true, completion: nil)
-                        }
+                self.postLocation(location, withLink: link, coordinates: coordinates)
+            }
+        }
+    }
+    
+    func postLocation(_ location: String, withLink link: String, coordinates: CLLocationCoordinate2D) {
+        ParseClient.sharedInstance.postStudentLocation(mapString: location, link: link, location: coordinates) { (success, error) in
+            performUIUpdatesOnMain {
+                self.activityIndicator.stopAnimating()
+                
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                } else {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    func putLocation(_ location: String, withLink link: String, withObjectId objectId: String) {
+        //location already existing, overwriting it?
+        let alert = UIAlertController(title: "Location already existing", message: "Do you want to override your previous location?", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
+            ParseClient.sharedInstance.putStudentLocation(objectId, mapString: location, link: link, location: self.pinnedLocation!) { (success, error) in
+                performUIUpdatesOnMain {
+                    self.activityIndicator.stopAnimating()
+                    
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true)
+                    } else {
+                        self.dismiss(animated: true, completion: nil)
                     }
                 }
             }
         }
+        
+        let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        
+        // Present Alert Controller
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func findLocation(_ sender: Any) {
