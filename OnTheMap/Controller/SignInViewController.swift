@@ -16,20 +16,6 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var passwordText: UITextField!
     @IBOutlet weak var loginWithFacebookButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if AccessToken.current != nil {
-            // User is logged in, use 'accessToken' here.
-            self.performSegue(withIdentifier: Constants.MAP_SEGUE, sender: self)
-        }
-    }
-
     @IBAction func signUp(_ sender: UIButton) {
         if let url = URL(string: UdacityConstants.UDACITY_SIGNUP_LINK) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)

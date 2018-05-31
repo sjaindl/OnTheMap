@@ -46,10 +46,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         map.clear()
         
         ParseClient.sharedInstance.fetchStudentLocations() { (success, errorString, studentInformation) in
-            if success {
-                self.addPin(studentInformation)
-            } else {
-                performUIUpdatesOnMain {
+            performUIUpdatesOnMain {
+                if success {
+                    self.addPin(studentInformation)
+                } else {
+                    
                     //show alertview with error message
                     let alert = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

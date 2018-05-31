@@ -41,7 +41,7 @@ class WebClient {
         return request
     }
     
-    func buildJson(from jsonObject: Any, withKey key: String? = nil) -> Data? {
+    func buildJsonString(from jsonObject: Any, withKey key: String? = nil) -> String {
         var json: String = ""
         var jsonPrefix: String?
         var jsonPostfix: String?
@@ -66,7 +66,11 @@ class WebClient {
             json = "{}"
         }
         
-        return json.data(using: .utf8)
+        return json
+    }
+    
+    func buildJson(from jsonObject: Any, withKey key: String? = nil) -> Data? {
+        return buildJsonString(from: jsonObject, withKey: key).data(using: .utf8)
     }
     
     // given raw JSON, return a usable Foundation object

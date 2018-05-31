@@ -81,7 +81,7 @@ class ParseClient {
     func postOrPutStudentLocation(withRequest request: URLRequest, mapString: String, link: String, location: CLLocationCoordinate2D, completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         var request = request
         let personalInfo = AuthenticationClient.sharedInstance.personalInformation
-        let requestBody = [UdacityConstants.ParameterKeys.UNIQUE_KEY: personalInfo.uniqueKey, UdacityConstants.ParameterKeys.FIRSTNAME: personalInfo.firstName, UdacityConstants.ParameterKeys.LASTNAME: personalInfo.lastName, UdacityConstants.ParameterKeys.MAPSTRING: mapString, UdacityConstants.ParameterKeys.MEDIA_URL: link, UdacityConstants.ParameterKeys.LATITUDE: String(location.latitude), UdacityConstants.ParameterKeys.LONGITUDE: String(location.longitude)]
+        let requestBody = [UdacityConstants.ParameterKeys.UNIQUE_KEY: personalInfo.uniqueKey!, UdacityConstants.ParameterKeys.FIRSTNAME: personalInfo.firstName!, UdacityConstants.ParameterKeys.LASTNAME: personalInfo.lastName!, UdacityConstants.ParameterKeys.MAPSTRING: mapString, UdacityConstants.ParameterKeys.MEDIA_URL: link, UdacityConstants.ParameterKeys.LATITUDE: location.latitude, UdacityConstants.ParameterKeys.LONGITUDE: location.longitude] as [String : Any]
         
         request.httpBody = WebClient.sharedInstance.buildJson(from: requestBody)
         
@@ -109,7 +109,8 @@ class ParseClient {
     }
     
     func getStudentLocation(_ uniqueKey: String, completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ objectId: String?) -> Void) {
-        let queryItem = [UdacityConstants.ParameterKeys.WHERE: uniqueKey]
+        let queryDict = [ParseConstants.ParameterKeys.UNIQUE_KEY: uniqueKey]
+        let queryItem = [UdacityConstants.ParameterKeys.WHERE: WebClient.sharedInstance.buildJsonString(from: queryDict)]
         let url = WebClient.sharedInstance.createUrl(forScheme: ParseConstants.UrlComponents.PROTOCOL, forHost: ParseConstants.UrlComponents.DOMAIN, forMethod: ParseConstants.Methods.STUDENT_LOCATION, withQueryItems: queryItem)
         let request = buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_GET)
         
@@ -137,7 +138,7 @@ class ParseClient {
     }
     
     private func buildRequest(withUrl url: URL, withHttpMethod httpMethod: String) -> URLRequest {
-        var request = WebClient.sharedInstance.buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_GET)
+        var request = WebClient.sharedInstance.buildRequest(withUrl: url, withHttpMethod: httpMethod)
         request.addValue(ParseConstants.ParameterValues.API_KEY, forHTTPHeaderField: ParseConstants.ParameterKeys.API_KEY)
         request.addValue(ParseConstants.ParameterValues.APPLICATION_ID, forHTTPHeaderField: ParseConstants.ParameterKeys.APPLICATION_ID)
         
