@@ -20,8 +20,8 @@ class ParseClient {
     }
     
     func fetchStudentLocations(completionHandler: @escaping (_ success: Bool, _ errorString: String?, _ studentInformation: [String: Any]?) -> Void) {
-        
-        let queryItems = [ParseConstants.ParameterKeys.ORDER: ParseConstants.ParameterValues.UPDATED_AT]
+        let queryItems = [ParseConstants.ParameterKeys.ORDER: ParseConstants.ParameterValues.UPDATED_AT,
+                          ParseConstants.ParameterKeys.LIMIT: ParseConstants.ParameterValues.LIMIT]
         let url = WebClient.sharedInstance.createUrl(forScheme: ParseConstants.UrlComponents.PROTOCOL, forHost: ParseConstants.UrlComponents.DOMAIN, forMethod: ParseConstants.Methods.STUDENT_LOCATION, withQueryItems: queryItems)
         
         let request = buildRequest(withUrl: url, withHttpMethod: WebConstants.ParameterKeys.HTTP_GET)

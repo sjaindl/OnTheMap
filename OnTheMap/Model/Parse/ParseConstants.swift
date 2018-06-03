@@ -34,6 +34,7 @@ struct ParseConstants {
         
         static let ORDER = "order"
         static let CREATED_AT = "createdAt"
+        static let LIMIT = "limit"
     }
     
     struct ParameterValues {
@@ -41,5 +42,6 @@ struct ParseConstants {
         static let API_KEY = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
         
         static let UPDATED_AT = "-updatedAt"
+        static let LIMIT = "100"
     }
 }

@@ -139,11 +139,7 @@ class UdacityClient {
                  */
                 
                 if let session = results?[UdacityConstants.ParameterKeys.SESSION] as? [String: Any], let sessionId = session[UdacityConstants.ParameterKeys.ID] as? String {
-                    if sessionId == AuthenticationClient.sharedInstance.personalInformation.udacitySessionId {
-                        completionHandler(true, "")
-                    } else {
-                        completionHandler(false, "Server and client sessions do not match.")
-                    }
+                    completionHandler(true, "")
                 } else {
                     print("Could not find \(UdacityConstants.ParameterKeys.ID) in \(results!)")
                     completionHandler(false, "Logout Failed (no confirmation from server).")

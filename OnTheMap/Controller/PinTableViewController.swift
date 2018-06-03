@@ -17,10 +17,19 @@ class PinTableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func logout(_ sender: UIBarButtonItem) {
-        AuthenticationClient.sharedInstance.reset()
         FacebookClient.sharedInstance.facebookLoginManager.logOut()
         
-        dismiss(animated: true, completion: nil)
+        AuthenticationClient.sharedInstance.logout() { (success, error) in
+            if success {
+                AuthenticationClient.sharedInstance.reset()
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                //show alertview with error message
+                let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
