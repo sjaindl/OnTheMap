@@ -12,11 +12,7 @@ import Foundation
 class FlickrClient {
     static let sharedInstance = FlickrClient()
     
-    var flickrPhotos: [[String: AnyObject]] = []
-    
     func fetchPhotos(_ latitude: Double, longitude: Double, completionHandler: @escaping (_ errorString: String?, _ isEmtpy: Bool, _ photos: [[String: AnyObject]]?) -> Void) {
-        
-        self.flickrPhotos.removeAll()
         
         fetchPhotosOfLocation(latitude, longitude: longitude) { (error, randomPage, _) in
             if error != nil {
@@ -36,8 +32,9 @@ class FlickrClient {
                             var photoNumber: Int = 0
                             var takenPhotos: Set<Int> = []
                             
+                            var flickrPhotos: [[String: AnyObject]] = []
                             
-                            while photoNumber < Constants.PHOTO_LIMIT && photoNumber < photos.count {
+                            while photoNumber < Constants.CoreData.PHOTO_LIMIT && photoNumber < photos.count {
                                 var randomPhotoIndex: Int
                                 repeat {
                                     randomPhotoIndex = Int(arc4random_uniform(UInt32(photos.count)))
@@ -47,10 +44,10 @@ class FlickrClient {
                                 photoNumber = photoNumber + 1
                                 
                                 let photoDictionary = photos[randomPhotoIndex] as [String: AnyObject]
-                                self.flickrPhotos.append(photoDictionary)
+                                flickrPhotos.append(photoDictionary)
                             }
                             
-                            completionHandler(nil, false, self.flickrPhotos)
+                            completionHandler(nil, false, flickrPhotos)
                         }
                     }
                 }
@@ -64,7 +61,7 @@ class FlickrClient {
             FlickrConstants.FlickrParameterKeys.APIKey: FlickrConstants.FlickrParameterValues.APIKey,
             FlickrConstants.FlickrParameterKeys.BoundingBox: bboxString(latitude: latitude, longitude: longitude),
             FlickrConstants.FlickrParameterKeys.SafeSearch: FlickrConstants.FlickrParameterValues.UseSafeSearch,
-            FlickrConstants.FlickrParameterKeys.Extras: FlickrConstants.FlickrParameterValues.MediumURL,
+            FlickrConstants.FlickrParameterKeys.Extras: FlickrConstants.FlickrParameterValues.ImageSize,
             FlickrConstants.FlickrParameterKeys.Format: FlickrConstants.FlickrParameterValues.ResponseFormat,
             FlickrConstants.FlickrParameterKeys.NoJSONCallback: FlickrConstants.FlickrParameterValues.DisableJSONCallback
         ]
