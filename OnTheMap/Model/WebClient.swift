@@ -9,6 +9,7 @@
 import Foundation
 
 class WebClient {
+    
     static let sharedInstance = WebClient()
     
     func createUrl(forScheme scheme: String, forHost host: String, forMethod method: String, withQueryItems queryItems: [String: String]?) -> URL {

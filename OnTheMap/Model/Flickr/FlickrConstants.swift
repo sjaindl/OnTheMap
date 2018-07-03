@@ -9,14 +9,13 @@
 import Foundation
 
 struct FlickrConstants {
-    
+
     struct UrlComponents {
         static let PROTOCOL = "https"
         static let DOMAIN = "api.flickr.com"
         static let PATH = "/services/rest"
     }
     
-    // MARK: Flickr
     struct Flickr {
         static let SearchBBoxHalfWidth = 0.25
         static let SearchBBoxHalfHeight = 0.25
@@ -24,7 +23,6 @@ struct FlickrConstants {
         static let SearchLonRange = (-180.0, 180.0)
     }
     
-    // MARK: Flickr Parameter Keys
     struct FlickrParameterKeys {
         static let Method = "method"
         static let APIKey = "api_key"
@@ -37,7 +35,6 @@ struct FlickrConstants {
         static let Page = "page"
     }
     
-    // MARK: Flickr Parameter Values
     struct FlickrParameterValues {
         static let SearchMethod = "flickr.photos.search"
         static let ResponseFormat = "json"
@@ -46,7 +43,6 @@ struct FlickrConstants {
         static let UseSafeSearch = "1"
     }
     
-    // MARK: Flickr Response Keys
     struct FlickrResponseKeys {
         static let Status = "stat"
         static let Photos = "photos"

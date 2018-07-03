@@ -10,6 +10,7 @@ import CoreLocation
 import Foundation
 
 class FlickrClient {
+    
     static let sharedInstance = FlickrClient()
     
     func fetchPhotos(_ latitude: Double, longitude: Double, completionHandler: @escaping (_ errorString: String?, _ isEmtpy: Bool, _ photos: [[String: AnyObject]]?) -> Void) {

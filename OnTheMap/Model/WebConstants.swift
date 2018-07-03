@@ -9,6 +9,7 @@
 import Foundation
 
 struct WebConstants {
+    
     struct ParameterKeys {
         static let ACCEPT_TYPE = "Accept"
         static let CONTENT_TYPE = "Content-Type"
