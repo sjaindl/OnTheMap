@@ -13,12 +13,12 @@ struct UdacityConstants {
     
     struct UrlComponents {
         static let PROTOCOL = "https"
-        static let DOMAIN = "www.udacity.com"
+        static let DOMAIN = "onthemap-api.udacity.com"
     }
     
     struct Methods {
-        static let SESSION = "/api/session"
-        static let PUBLIC_INFO = "/api/users/"
+        static let SESSION = "/v1/session"
+        static let PUBLIC_INFO = "/v1/users/"
     }
     
     struct ParameterKeys {
